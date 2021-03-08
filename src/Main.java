@@ -57,14 +57,15 @@ public class Main
 
 	private static double calculate(double a, double b, String c)
 	{
-		return switch (c)
+		if(c.equals("+")) return b + a;
+		else if(c.equals("-")) return b - a;
+		else if(c.equals("*")) return b * a;
+		else if(c.equals("/"))
 		{
-			case "+" -> b + a;
-			case "-" -> b - a;
-			case "*" -> b * a;
-			case "/" -> b / a;
-			default -> Math.pow(b, a);
-		};
+			if (a == 0) throw new ArithmeticException();
+			return b / a;
+		}
+		return Math.pow(b, a);
 	}
 
 	private static String evaluate(String input)
@@ -85,7 +86,14 @@ public class Main
 		while(true)
 		{
 			String userInput;
-			System.out.print((verify((userInput = console.nextLine().replaceAll(" ", ""))))? "= " + evaluate(userInput) + "\n>> ": "Invalid expression. Try again.\n>> ");
+			try
+			{
+				System.out.print((verify((userInput = console.nextLine().replaceAll(" ", "")))) ? "= " + evaluate(userInput) + "\n>> " : "Invalid expression. Try again.\n>> ");
+			}
+			catch (ArithmeticException e)
+			{
+				System.out.print("Invalid expression. Try again.\n>> ");
+			}
 		}
 	}
 }
